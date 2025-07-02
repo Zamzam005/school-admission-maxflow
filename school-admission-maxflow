@@ -1,0 +1,49 @@
+import networkx as nx
+
+# Create a directed graph
+G = nx.DiGraph()
+
+# Add source and sink
+G.add_node("source")
+G.add_node("sink")
+
+# Students and their preferences
+students = {
+    "Amina": ["Uni1"],
+    "Bilal": ["Uni1", "Uni2"],
+    "Caro": ["Uni2"]
+}
+
+# School capacities
+schools = {
+    "Uni1": 1,
+    "Uni2": 2
+}
+
+# Add edges from source to students
+for student in students:
+    G.add_edge("source", student, capacity=1)
+
+# Add edges from students to their preferred schools
+for student, prefs in students.items():
+    for school in prefs:
+        G.add_edge(student, school, capacity=1)
+
+# Add edges from schools to sink
+for school, cap in schools.items():
+    G.add_edge(school, "sink", capacity=cap)
+
+# Run Edmonds-Karp max flow
+flow_value, flow_dict = nx.maximum_flow(G, "source", "sink")
+print("Max flow (number of students assigned):", flow_value)
+
+# Print assignments
+assignments = []
+for student in students:
+    for school in students[student]:
+        if flow_dict[student][school] == 1:
+            assignments.append((student, school))
+
+print("Assignments:")
+for student, school in assignments:
+    print(f"{student} → {school}")
