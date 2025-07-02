@@ -1,0 +1,38 @@
+// job assignment
+
+def test_job_assignment():
+    mf = MaxFlow()
+    workers = ['A', 'B', 'C']
+    jobs = ['1', '2']
+
+    # Connect source to workers
+    for w in workers:
+        mf.add_edge('s', w, 1)
+
+    # Preferences
+    mf.add_edge('A', '1', 1)
+    mf.add_edge('B', '1', 1)
+    mf.add_edge('B', '2', 1)
+    mf.add_edge('C', '2', 1)
+
+    # Job capacities
+    mf.add_edge('1', 't', 1)
+    mf.add_edge('2', 't', 2)
+
+    print("Job Assignment Max Flow =", mf.edmonds_karp('s', 't'))
+
+test_job_assignment()
+
+
+// network traffic
+
+def test_network_routing():
+    mf = MaxFlow()
+    mf.add_edge('s', 'A', 10)
+    mf.add_edge('A', 'B', 5)
+    mf.add_edge('B', 't', 7)
+
+    print("Network Routing Max Flow =", mf.edmonds_karp('s', 't'))
+
+test_network_routing()
+
